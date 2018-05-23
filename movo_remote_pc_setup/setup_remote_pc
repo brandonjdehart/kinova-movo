@@ -121,7 +121,10 @@ then
     cd ~/movo_ws  
     catkin_make
     cd $MOVO_SETUP_DIR
+<<<<<<< HEAD
     yes | cp -rf config/network_config.bash /home/$USER/movo_ws/src/movo_network/movo_network_config.bash 
+=======
+>>>>>>> dd21310542f864dd999fcb482852999a7050b42e
 fi
 
 echo -e "\nScript has finished configuring the remote PC.\n\nWould you like to connect to the physical Movo robot now?"
