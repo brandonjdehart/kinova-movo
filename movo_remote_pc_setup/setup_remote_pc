@@ -13,7 +13,7 @@ fi
 
 export MOVO_SETUP_DIR=$PWD
 
-echo -e "\nNeed sudo persmission to do the configuration and setup\nPlease enter your password if prompted....\n"
+echo -e "\nNeed sudo permission to do the configuration and setup\nPlease enter your password if prompted....\n"
 echo "$USER ALL=(ALL) NOPASSWD:ALL" | (sudo su -c 'EDITOR="tee -a" visudo') >> /dev/null
 
 temp2=1
@@ -102,7 +102,7 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
     read -r -p "Do you want to proceed? [y/N] " response
     if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
     then
-        echo "Please press enter for each step,this will configure a default ssh key\nIf you decide to do something different than that its assumed you know what you're doing\n\nPress any key to continue......"
+        echo -e "Please press enter for each step,this will configure a default ssh key\nIf you decide to do something different than that its assumed you know what you're doing\n\nPress any key to continue......"
         read -n 1 -s    
         ssh-keygen -t rsa
     else
@@ -110,16 +110,18 @@ if [ ! -f ~/.ssh/id_rsa.pub ]; then
     fi
 fi
 
-echo "\nWould you like to initialize and build the local workspace?"
+echo -e "\nWould you like to initialize and build the local workspace?"
 read -r -p "Build local workspace? [y/N] " response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
 then
-    echo "\n Building local workspace. \n\n"
+    echo -e "\n Building local workspace. \n\n"
     cd ~/movo_ws/src
+    rm -f CMakeLists.txt
     catkin_init_workspace
     cd ~/movo_ws  
     catkin_make
     cd $MOVO_SETUP_DIR
+    yes | cp -rf config/network_config.bash /home/$USER/movo_ws/src/movo_network/movo_network_config.bash 
 fi
 
 echo -e "\nScript has finished configuring the remote PC.\n\nWould you like to connect to the physical Movo robot now?"
