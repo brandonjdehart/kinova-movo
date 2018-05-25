@@ -45,35 +45,36 @@ fi
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
 sudo apt-get update
-sudo apt-get install ros-indigo-desktop-full
+sudo apt-get install ros-indigo-desktop-full -y
 sudo rosdep init
 rosdep update
 source /opt/ros/indigo/setup.bash
-sudo apt-get install python-rosinstall
-sudo apt-get update && sudo apt-get upgrade
-sudo apt-get install xdotool wmctrl iperf chrony htop bridge-utils ros-indigo-navigation ros-indigo-gmapping ros-indigo-robot-localization ros-indigo-yocs-cmd-vel-mux ros-indigo-joy ros-indigo-urg-node ros-indigo-sick-tim ros-indigo-cmake-modules daemontools openssh-server libpcap0.8-dev ros-indigo-um7 ros-indigo-imu-tools ros-indigo-jsk-recognition ros-indigo-ros-controllers ros-indigo-scan-tools ros-indigo-gazebo-ros ros-indigo-gazebo-plugins ros-indigo-moveit ros-indigo-gazebo-ros-control ros-indigo-hector-gazebo-plugins ros-indigo-trac-ik
+sudo apt-get install python-rosinstall -y
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install xdotool wmctrl iperf chrony htop bridge-utils ros-indigo-navigation ros-indigo-gmapping ros-indigo-robot-localization ros-indigo-yocs-cmd-vel-mux ros-indigo-joy ros-indigo-urg-node ros-indigo-sick-tim ros-indigo-cmake-modules daemontools openssh-server libpcap0.8-dev ros-indigo-um7 ros-indigo-imu-tools ros-indigo-jsk-recognition ros-indigo-ros-controllers ros-indigo-scan-tools ros-indigo-gazebo-ros ros-indigo-gazebo-plugins ros-indigo-moveit ros-indigo-gazebo-ros-control ros-indigo-hector-gazebo-plugins ros-indigo-trac-ik -y
 
 echo -e "\niai_kinect2 prerequisites must be installed!!!!!\nIf you have a PC with Intel integrated graphics answering Y will install\neverything. If you have a PC with a dedicated NVIDIA graphics card\nand want to be able to use CUDA follow the instructions\non https://github.com/code-iai/iai_kinect2 and then enter N here\n"
 read -r -p "Do you want to install iai_kinect2 prerequisites for Intel CPU now? [y/N]" response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
 then
     sudo add-apt-repository ppa:floe/beignet && sudo apt-get update
-    sudo apt-get install beignet beignet-dev opencl-headers
+    sudo apt-get install beignet beignet-dev opencl-headers -y
     git clone https://github.com/OpenKinect/libfreenect2.git
     cd libfreenect2
     cd depends
     ./download_debs_trusty.sh
-    sudo apt-get install build-essential cmake pkg-config
+    sudo apt-get install build-essential cmake pkg-config -y
+    sudo cp /usr/share/cmake-2.8/Modules/FindEigen3.cmake /usr/share/cmake-3.0/Modules/
     sudo dpkg -i debs/libusb*deb
-    sudo apt-get install libturbojpeg libjpeg-turbo8-dev
-    sudo dpkg -i debs/libglfw3*deb; sudo apt-get install -f
-    sudo apt-get install libgl1-mesa-dri-lts-vivid
+    sudo apt-get install libturbojpeg libjpeg-turbo8-dev -y
+    sudo dpkg -i debs/libglfw3*deb; sudo apt-get install -f -y
+    sudo apt-get install libgl1-mesa-dri-lts-vivid -y
     sudo apt-add-repository ppa:floe/beignet
     sudo apt-get update
-    sudo apt-get install beignet-dev
+    sudo apt-get install beignet-dev -y
     sudo dpkg -i debs/ocl-icd*deb
     sudo apt-add-repository ppa:deb-rob/ros-trusty && sudo apt-get update
-    sudo apt-get install libopenni2-dev
+    sudo apt-get install libopenni2-dev -y
     cd ..
     mkdir build && cd build
     cmake .. -DENABLE_CXX11=ON
@@ -226,7 +227,7 @@ else
     cd ~/movo_ws  
     catkin_make
     cd $MOVO_SETUP_DIR
-    yes | cp -rf config/network_config.bash /home/$USER/movo_ws/src/movo_network/movo_network_config.bash 
+    yes | cp -rf config/movo_network_config.bash /home/$USER/movo_ws/src/movo_network/movo_network_config.bash 
     
 fi
 source ~/.bashrc
